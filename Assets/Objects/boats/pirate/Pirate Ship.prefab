@@ -65738,17 +65738,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01c46922a8ed04b0081de10e51b3762f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  VelocityMag: 0
   rudderTransform: {fileID: 6819394062659817291}
   rudderRotationAxis: {x: 0, y: 0, z: 1}
   rudderMaxAngle: 0.75
   engineSound: {fileID: 6884557895442843776}
   waterSound: {fileID: 6884278412879909026}
   steeringTorque: 0.2
-  horsePower: 16
+  horsePower: 13
+  accelerationRate: 0.1
   boatSideTurnMultiplier: 0.2
   boatBackTurnMultiplier: 0.07
-  enginePosition: {x: 0, y: -0.42, z: -2.96}
-  engineScale: 0.38
+  rudderPosition: {x: 0, y: 0, z: 0}
+  rudderGizmoScale: 1
 --- !u!4 &6827266245015396404 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4534809148113994, guid: fc3ffb83d6eafb1489a5b23bc82d25b6,

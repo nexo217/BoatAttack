@@ -31,8 +31,8 @@ namespace BoatAttack
         private int _guid;
         private float _yHeight;
 
-        public Vector3 enginePosition;
-        public float engineScale = 1f;
+        public Vector3 rudderPosition;
+        public float rudderGizmoScale = 1f;
         private Vector3 _engineDir;
         private float _turnVel;
         private float _currentAngle;
@@ -55,7 +55,7 @@ namespace BoatAttack
             engineSound.pitch = Mathf.Max(VelocityMag * 0.01f, 0.3f); // use some magice numbers to control the pitch of the engine sound
 
             // Get the water level from the engines position and store it
-            _point[0] = transform.TransformPoint(enginePosition);
+            _point[0] = transform.TransformPoint(rudderPosition);
             GerstnerWavesJobs.UpdateSamplePoints(ref _point, _guid);
             GerstnerWavesJobs.GetData(_guid, ref _heights, ref _normals);
             _yHeight = _heights[0].y - _point[0].y;
@@ -72,22 +72,21 @@ namespace BoatAttack
         /// <param name="modifier">Acceleration modifier, adds force in the 0-1 range</param>
         public void Accelerate(float modifier)
         {
-            if (_yHeight > -0.1f) // if the engine is deeper than 0.1
-            {
-                modifier = Mathf.Clamp(modifier, 0f, 1f); // clamp for reasonable values
 
-                // Gradually increase the acceleration
-                currentAcceleration = Mathf.MoveTowards(currentAcceleration, modifier, Time.fixedDeltaTime * accelerationRate);
+            modifier = Mathf.Clamp(modifier, 0f, 1f); // clamp for reasonable values
 
-                var forward = RB.transform.forward;
-                forward.y = 0f;
-                forward.Normalize();
+            // Gradually increase the acceleration
+            currentAcceleration = Mathf.MoveTowards(currentAcceleration, modifier, Time.fixedDeltaTime * accelerationRate);
 
-                // Add force based on current acceleration
-                RB.AddForce(horsePower * currentAcceleration * forward, ForceMode.Acceleration);
+            var forward = RB.transform.forward;
+            forward.y = 0f;
+            forward.Normalize();
 
-                RB.AddRelativeTorque(-Vector3.right * currentAcceleration * boatBackTurnMultiplier, ForceMode.Acceleration);
-            }
+            // Add force based on current acceleration
+            RB.AddForce(horsePower * currentAcceleration * forward, ForceMode.Acceleration);
+
+            RB.AddRelativeTorque(-Vector3.right * currentAcceleration * boatBackTurnMultiplier, ForceMode.Acceleration);
+
         }
 
         /// <summary>
@@ -116,7 +115,7 @@ namespace BoatAttack
         {
             Gizmos.color = Color.green;
             Gizmos.matrix = transform.localToWorldMatrix;
-            Gizmos.DrawCube(enginePosition, new Vector3(0.1f, 0.2f, 0.3f) * engineScale); // Draw teh engine position with sphere
+            Gizmos.DrawCube(rudderPosition, new Vector3(0.1f, 0.2f, 0.3f) * rudderGizmoScale); // Draw teh engine position with sphere
         }
     }
 }
